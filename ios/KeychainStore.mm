@@ -1,12 +1,42 @@
 #import "KeychainStore.h"
+#import <Security/Security.h>
 
 @implementation KeychainStore
 RCT_EXPORT_MODULE()
 
-- (NSNumber *)multiply:(double)a b:(double)b {
-    NSNumber *result = @(a * b);
+- (void)clear {
+  NSDictionary *query = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword};
+  SecItemDelete((__bridge CFDictionaryRef)query);
+}
 
-    return result;
+- (NSString *)getItem:(NSString *)key {
+  NSDictionary *query = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
+                          (__bridge id)kSecAttrAccount: key,
+                          (__bridge id)kSecReturnData: @YES,
+                          (__bridge id)kSecMatchLimit: (__bridge id)kSecMatchLimitOne};
+
+  CFDataRef result = NULL;
+  if (SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&result) == errSecSuccess) {
+    NSData *data = (__bridge_transfer NSData *)result;
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+  }
+  return nil;
+}
+
+- (NSNumber *)removeItem:(NSString *)key {
+  NSDictionary *query = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
+                          (__bridge id)kSecAttrAccount: key};
+  OSStatus status = SecItemDelete((__bridge CFDictionaryRef)query);
+  return @(status == errSecSuccess);
+}
+
+- (NSNumber *)setItem:(NSString *)key val:(NSString *)val {
+  [self removeItem:key];
+  NSDictionary *query = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
+                          (__bridge id)kSecAttrAccount: key,
+                          (__bridge id)kSecValueData: [val dataUsingEncoding:NSUTF8StringEncoding]};
+  OSStatus status = SecItemAdd((__bridge CFDictionaryRef)query, NULL);
+  return @(status == errSecSuccess);
 }
 
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
