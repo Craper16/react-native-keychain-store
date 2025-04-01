@@ -1,24 +1,28 @@
-# react-native-keychain-store
+# rn-keychain-store
 
 Keychain and Keystore simple API Implementation
 
 ## Installation
 
 ```sh
-npm install react-native-keychain-store
+npm install rn-keychain-store
 ```
 
 ## Usage
 
-
 ```js
-import { multiply } from 'react-native-keychain-store';
+import KeychainStore, { setItem, getItem, removeItem, clear } from 'rn-keychain-store';
 
 // ...
 
-const result = multiply(3, 7);
-```
+setItem('token', 'some-access-token-securely-stored')
 
+const token = getItem('token')
+
+removeItem('token')
+
+clear()
+```
 
 ## Contributing
 
