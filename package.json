@@ -1,5 +1,5 @@
 {
-  "name": "@georgio_saad29/react-native-keychain-store",
+  "name": "@react-native-keychain-store",
   "version": "0.2.0",
   "description": "Keychain and Keystore simple API Implementation",
   "source": "./src/index.tsx",
