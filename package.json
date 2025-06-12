@@ -1,6 +1,6 @@
 {
   "name": "rn-keychain-store",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Keychain and Keystore simple API Implementation",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
