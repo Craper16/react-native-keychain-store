@@ -45,9 +45,9 @@ No additional steps required. The module will be automatically linked.
 import KeychainStore, { setItem, getItem, removeItem, clear } from 'rn-keychain-store';
 
 // Store sensitive data
-const storeToken = async () => {
+const storeToken = () => {
   try {
-    const success = await setItem('auth_token', 'your-secure-token');
+    const success = setItem('auth_token', 'your-secure-token');
     if (success) {
       console.log('Token stored successfully');
     }
@@ -57,9 +57,9 @@ const storeToken = async () => {
 };
 
 // Retrieve stored data
-const getToken = async () => {
+const getToken = () => {
   try {
-    const token = await getItem('auth_token');
+    const token = getItem('auth_token');
     if (token) {
       console.log('Retrieved token:', token);
     }
@@ -69,9 +69,9 @@ const getToken = async () => {
 };
 
 // Remove specific item
-const removeToken = async () => {
+const removeToken = () => {
   try {
-    const success = await removeItem('auth_token');
+    const success = removeItem('auth_token');
     if (success) {
       console.log('Token removed successfully');
     }
@@ -81,9 +81,9 @@ const removeToken = async () => {
 };
 
 // Clear all stored data
-const clearAll = async () => {
+const clearAll = () => {
   try {
-    await clear();
+    clear();
     console.log('All data cleared successfully');
   } catch (error) {
     console.error('Failed to clear data:', error);
@@ -93,29 +93,29 @@ const clearAll = async () => {
 
 ## API Reference
 
-### `setItem(key: string, value: string): Promise<boolean>`
+### `setItem(key: string, value: string): boolean`
 
 Stores a value securely in the keychain/keystore.
 
 - `key`: The key to store the value under
 - `value`: The value to store
-- Returns: `Promise<boolean>` - `true` if successful, `false` otherwise
+- Returns: `boolean` - `true` if successful, `false` otherwise
 
-### `getItem(key: string): Promise<string | null>`
+### `getItem(key: string): string | null`
 
 Retrieves a value from the keychain/keystore.
 
 - `key`: The key to retrieve
-- Returns: `Promise<string | null>` - The stored value or `null` if not found
+- Returns: `string | null` - The stored value or `null` if not found
 
-### `removeItem(key: string): Promise<boolean>`
+### `removeItem(key: string): boolean`
 
 Removes a value from the keychain/keystore.
 
 - `key`: The key to remove
-- Returns: `Promise<boolean>` - `true` if successful, `false` otherwise
+- Returns: `boolean` - `true` if successful, `false` otherwise
 
-### `clear(): Promise<void>`
+### `clear(): void`
 
 Removes all values from the keychain/keystore.
 
