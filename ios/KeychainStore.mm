@@ -32,12 +32,18 @@ RCT_EXPORT_MODULE()
 
 - (NSNumber *)setItem:(NSString *)key val:(NSString *)val {
   [self removeItem:key];
-  NSDictionary *query = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
-                          (__bridge id)kSecAttrAccount: key,
-                          (__bridge id)kSecValueData: [val dataUsingEncoding:NSUTF8StringEncoding]};
+
+  NSDictionary *query = @{
+    (__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
+    (__bridge id)kSecAttrAccount: key,
+    (__bridge id)kSecValueData: [val dataUsingEncoding:NSUTF8StringEncoding],
+    (__bridge id)kSecAttrAccessible: (__bridge id)kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+  };
+
   OSStatus status = SecItemAdd((__bridge CFDictionaryRef)query, NULL);
   return @(status == errSecSuccess);
 }
+
 
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
     (const facebook::react::ObjCTurboModule::InitParams &)params
